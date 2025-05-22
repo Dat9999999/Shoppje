@@ -1,3 +1,8 @@
+using Microsoft.EntityFrameworkCore;
+using Shoppje.data;
+using Shoppje.Repositories.Implements;
+using Shoppje.Repositories.Interfaces;
+
 namespace Shoppje
 {
     public class Program
@@ -5,6 +10,13 @@ namespace Shoppje
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+            builder.Services.AddDbContext<Shoppje.data.DataContext>(options =>
+                options.UseSqlServer(connectionString));
+
+            //Dependency Injection for repository 
+            builder.Services.AddScoped<IProductRepository, ProducttRepository>();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -29,6 +41,9 @@ namespace Shoppje
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
+
+            var context = app.Services.CreateScope().ServiceProvider.GetRequiredService<Shoppje.data.DataContext>();
+            SeedData.Seed(context);
 
             app.Run();
         }
