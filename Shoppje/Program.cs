@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using Shoppje.data;
 using Shoppje.Repositories.Implements;
 using Shoppje.Repositories.Interfaces;
+using Shoppje.Services.implements;
+using Shoppje.Services.interfaces;
 
 namespace Shoppje
 {
@@ -18,6 +20,9 @@ namespace Shoppje
             //Dependency Injection for repository 
             builder.Services.AddScoped<IProductRepository, ProducttRepository>();
 
+
+            //DI for services
+            builder.Services.AddScoped<IProductService, ProductService>();
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
