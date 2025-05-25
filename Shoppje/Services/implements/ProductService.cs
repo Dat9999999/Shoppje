@@ -11,6 +11,13 @@ namespace Shoppje.Services.implements
         {
             _productRepository = productRepository;
         }
+
+        public Task<ProductModel> GetProductById(int id)
+        {
+            var product = _productRepository.GetProductById(id);
+            return product;
+        }
+
         public async Task<IEnumerable<ProductModel>> GetProductsAsync()
         {
             return await _productRepository.GetProductsAsync();

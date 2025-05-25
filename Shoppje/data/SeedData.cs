@@ -13,7 +13,7 @@ namespace Shoppje.data
                 CategoryModel mac = new CategoryModel()
                 {
                     Name = "Macbook",
-                    slug = "macbook",
+                    Slug = "macbook",
 
                     Status = 1,
                     Description = "Apple is the large company"
@@ -21,14 +21,14 @@ namespace Shoppje.data
                 CategoryModel adnroid = new CategoryModel()
                 {
                     Name = "Adnroid",
-                    slug = "Adnroid",
+                    Slug = "Adnroid",
                     Status = 1,
                     Description = "Personal computer "
                 };
                 BrandModel apple = new BrandModel()
                 {
                     Name = "Apple",
-                    slug = "apple",
+                    Slug = "apple",
 
                     Status = 1,
                     Description = "Apple is the large company"
@@ -36,7 +36,7 @@ namespace Shoppje.data
                 BrandModel samsung = new BrandModel()
                 {
                     Name = "Samsung",
-                    slug = "samsung",
+                    Slug = "samsung",
                     Status = 1,
                     Description = "Samsung devices and gadgets"
                 };

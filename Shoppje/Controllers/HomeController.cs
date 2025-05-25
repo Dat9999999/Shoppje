@@ -1,7 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Shoppje.Models;
-using Shoppje.Repositories.Interfaces;
 using Shoppje.Services.interfaces;
 
 namespace Shoppje.Controllers

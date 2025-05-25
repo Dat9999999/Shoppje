@@ -19,9 +19,7 @@ namespace Shoppje.Models
 
         public CategoryModel Category { get; set; }
         public BrandModel Brand { get; set; }
-
         public String slug { get; set; }
-
         public string Img { get; set; }
 
     }

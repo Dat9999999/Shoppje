@@ -19,10 +19,15 @@ namespace Shoppje
 
             //Dependency Injection for repository 
             builder.Services.AddScoped<IProductRepository, ProducttRepository>();
+            builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+            builder.Services.AddScoped<IBrandReposiotry, BrandReposiotry>();
+
 
 
             //DI for services
             builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddScoped<ICategoryService, CategoryService>();
+            builder.Services.AddScoped<IBrandService, BrandService>();
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
@@ -41,6 +46,7 @@ namespace Shoppje
 
             app.UseRouting();
 
+            //app.UseSession();
             app.UseAuthorization();
 
             app.MapControllerRoute(

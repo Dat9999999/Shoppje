@@ -8,10 +8,27 @@ namespace Shoppje.Repositories.Implements
     public class ProducttRepository : IProductRepository
     {
         private readonly DataContext _context;
-        public ProducttRepository(DataContext context)
+        private readonly ILogger<ProducttRepository> _logger;
+        public ProducttRepository(DataContext context, ILogger<ProducttRepository> logger)
         {
             _context = context;
+            _logger = logger;
         }
+
+        public Task<IEnumerable<ProductModel>> GetListProductOfSlug(int CategoryId)
+        {
+            return _context.Products
+                .Where(p => p.CategoryId == CategoryId)
+                .ToListAsync()
+                .ContinueWith(task => (IEnumerable<ProductModel>)task.Result);
+        }
+
+        public Task<ProductModel> GetProductById(int id)
+        {
+            return _context.Products
+                   .FirstOrDefaultAsync(p => p.Id == id);
+        }
+
         public async Task<List<ProductModel>> GetProductsAsync()
         {
             return await _context.Products.ToListAsync();

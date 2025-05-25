@@ -11,7 +11,7 @@ namespace Shoppje.Models
         [Required, MinLength(4, ErrorMessage = "Category's description is required!")]
         public string Description { get; set; }
         [Required]
-        public String slug { get; set; }
+        public String Slug { get; set; }
         public int Status { get; set; }
 
     }
