@@ -12,7 +12,16 @@ namespace Shoppje
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            
+
+            builder.Services.AddDistributedMemoryCache();
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
+                options.Cookie.IsEssential = true; // Make the session cookie essential
+            });
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
 
             builder.Services.AddDbContext<Shoppje.data.DataContext>(options =>
                 options.UseSqlServer(connectionString));
@@ -46,7 +55,7 @@ namespace Shoppje
 
             app.UseRouting();
 
-            //app.UseSession();
+            app.UseSession();
             app.UseAuthorization();
 
             app.MapControllerRoute(

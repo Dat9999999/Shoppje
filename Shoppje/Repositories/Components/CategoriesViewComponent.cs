@@ -2,19 +2,19 @@
 using Microsoft.EntityFrameworkCore;
 using Shoppje.data;
 
-namespace Shoppje.Repositories
+namespace Shoppje.Repositories.Components
 {
-    public class BrandsViewComponent : ViewComponent
+    public class CategoriesViewComponent : ViewComponent
     {
         private readonly DataContext _context;
-        public BrandsViewComponent(DataContext context)
+        public CategoriesViewComponent(DataContext context)
         {
             _context = context;
         }
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var Brands = await _context.Brands.ToListAsync();
-            return View(Brands);
+            var categories = await _context.Categories.ToListAsync();
+            return View(categories);
         }
     }
 }
