@@ -20,6 +20,8 @@ namespace Shoppje
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
                 options.Cookie.IsEssential = true; // Make the session cookie essential
             });
+            builder.Services.AddHttpContextAccessor();
+
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 
@@ -37,6 +39,8 @@ namespace Shoppje
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<IBrandService, BrandService>();
+            builder.Services.AddScoped<ICartService, CartService>();
+
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
