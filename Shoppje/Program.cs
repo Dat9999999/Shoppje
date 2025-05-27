@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Shoppje.data;
 using Shoppje.Repositories.Implements;
 using Shoppje.Repositories.Interfaces;
@@ -18,7 +18,10 @@ namespace Shoppje
             builder.Services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromMinutes(30);
-                options.Cookie.IsEssential = true; // Make the session cookie essential
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // Bắt buộc cookie chỉ gửi trên HTTPS
+                options.Cookie.SameSite = SameSiteMode.Lax; // hoặc Strict tùy nhu cầu, nhưng Lax là phổ biến cho HTTPS
             });
             builder.Services.AddHttpContextAccessor();
 

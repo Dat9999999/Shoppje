@@ -21,5 +21,11 @@ namespace Shoppje.Controllers
         {
             return View();
         }
+        public async Task< IActionResult> Add(int Id)
+        {
+            await _cartService.AddToCart(Id);
+            return Redirect(Request.Headers["Referer"].ToString());
+
+        }
     }
 }

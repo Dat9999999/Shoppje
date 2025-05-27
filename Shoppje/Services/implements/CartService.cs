@@ -1,7 +1,10 @@
 ﻿using Shoppje.Models;
 using Shoppje.Models.ViewModels;
 using Shoppje.Repositories;
+using Shoppje.Repositories.Interfaces;
 using Shoppje.Services.interfaces;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace Shoppje.Services.implements
 {
@@ -9,11 +12,38 @@ namespace Shoppje.Services.implements
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger<CartService> _logger;
+        private readonly IProductRepository _productRepository;
 
-        public CartService(IHttpContextAccessor httpContextAccessor, ILogger<CartService> logger)
+        public CartService(IHttpContextAccessor httpContextAccessor, ILogger<CartService> logger, IProductRepository productRepository)
         {
             _httpContextAccessor = httpContextAccessor;
             _logger = logger;
+            _productRepository = productRepository;
+        }
+
+        public async Task AddToCart(int productId)
+        {
+            ProductModel productItem = await _productRepository.GetProductById(productId);
+            _logger.LogInformation("Adding product to cart: {0}", productItem.Name);
+            List<CartItemModel> cartItems = _httpContextAccessor.HttpContext?.Session.GetJson<List<CartItemModel>>("Cart") ?? new List<CartItemModel>();
+            CartItemModel existingItem = cartItems.FirstOrDefault(item => item.ProductId == productId);
+            _logger.LogInformation("Session ID: {0}", _httpContextAccessor.HttpContext.Session.Id);
+            if (existingItem != null)
+            {
+                existingItem.Quantity++;
+            }
+            else
+            {
+                cartItems.Add(new CartItemModel
+                {
+                    ProductId = productId,
+                    ProductName = productItem.Name,
+                    Price = productItem.Price,
+                    Quantity = 1
+                });
+            }
+            _httpContextAccessor.HttpContext.Session.SetJson("Cart", cartItems);
+            _logger.LogInformation("Cart saved to session: " + JsonSerializer.Serialize(cartItems));
         }
 
         public CartItemViewModel GetCartItems()
@@ -24,7 +54,7 @@ namespace Shoppje.Services.implements
                 throw new InvalidOperationException("Session is not available.");
             }
 
-            var cartItems = session.GetJson<List<CartItemModel>>("CartItems") ?? new List<CartItemModel>();
+            var cartItems = session.GetJson<List<CartItemModel>>("Cart") ?? new List<CartItemModel>();
             var cartItemViewModel = new CartItemViewModel
             {
                 CartItems = cartItems,

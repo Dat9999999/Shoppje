@@ -8,7 +8,7 @@ namespace Shoppje.data
         public static void Seed(DataContext _context)
         {
             _context.Database.Migrate();
-            if(!_context.Products.Any())
+            if (!_context.Products.Any())
             {
                 CategoryModel mac = new CategoryModel()
                 {
@@ -41,7 +41,7 @@ namespace Shoppje.data
                     Description = "Samsung devices and gadgets"
                 };
                 _context.Products.AddRange(
-                    new ProductModel ()
+                    new ProductModel()
                     {
                         Name = "Macbook Pro 16",
                         slug = "macbook-pro-16",
@@ -63,7 +63,7 @@ namespace Shoppje.data
                     }
                 );
                 _context.SaveChanges();
-                }
+            }
         }
     }
 }

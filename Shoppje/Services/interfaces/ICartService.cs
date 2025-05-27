@@ -5,5 +5,7 @@ namespace Shoppje.Services.interfaces
     public interface  ICartService
     {
         public CartItemViewModel GetCartItems();
+
+        public Task AddToCart(int productId);
     }
 }

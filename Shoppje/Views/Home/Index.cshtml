@@ -22,8 +22,8 @@
 						<div class="overlay-content">
 								<h2>@item.Price</h2>
 								<p>@item.Name</p>
-							<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
-							<a asp-action ="Detail" asp-controller ="Product" asp-route-Id ="@item.Id" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>See details</a>
+								<a asp-action="Add" asp-controller="Cart" asp-route-Id="@item.Id" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+								<a asp-action ="Detail" asp-controller ="Product" asp-route-Id ="@item.Id" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>See details</a>
 						</div>
 					</div>
 				</div>
