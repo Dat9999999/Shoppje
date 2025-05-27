@@ -31,16 +31,16 @@
 									<img src="~/images/@item.ImageUrl" alt="">
 								</td>
 								<td class="cart_description">
-									<h4>>@item.ProductName</h4>
+									<h4>@item.ProductName</h4>
 								</td>
 								<td class="cart_price">
 									<p>$@item.Price</p>
 								</td>
 								<td class="cart_quantity">
 									<div class="cart_quantity_button">
-										<a asp-controller ="Cart" asp-action ="Increase" class="cart_quantity_up"> + </a>
+										<a asp-controller="Cart" asp-action="Increase" asp-route-Id="@item.ProductId" class="cart_quantity_up"> + </a>
 										<input class="cart_quantity_input" type="text" name="quantity" value="@item.Quantity" autocomplete="off" size="2">
-										<a asp-controller="Cart" asp-action="Decrease" class="cart_quantity_down"> - </a>
+										<a asp-controller="Cart" asp-action="Decrease" asp-route-Id ="@item.Id" class="cart_quantity_down"> - </a>
 									</div>
 								</td>
 								<td class="cart_total">

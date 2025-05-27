@@ -27,5 +27,14 @@ namespace Shoppje.Controllers
             return Redirect(Request.Headers["Referer"].ToString());
 
         }
+        public async Task<IActionResult> Increase(int Id)
+        {
+            await _cartService.IncreaseQuantity(Id);
+            return RedirectToAction("Index");
+        }
+        public async Task<IActionResult> Decrease(int Id)
+        {
+            return RedirectToAction("Index");
+        }
     }
 }
