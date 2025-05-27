@@ -47,6 +47,34 @@ namespace Shoppje.Services.implements
             _logger.LogInformation("Cart saved to session: " + JsonSerializer.Serialize(cartItems));
         }
 
+        public Task DecreaseQuantity(int id)
+        {
+            var session = _httpContextAccessor.HttpContext?.Session;
+            if (session == null)
+            {
+                throw new InvalidOperationException("Session is not available.");
+            }
+            var cartItems = session.GetJson<List<CartItemModel>>("Cart") ?? new List<CartItemModel>();
+            if (cartItems == null || !cartItems.Any())
+            {
+                throw new InvalidOperationException("Cart is empty.");
+            }
+            _logger.LogInformation("Increasing quantity for product ID {0}", id);
+            var item = cartItems.FirstOrDefault(i => i.ProductId == id);
+            if (item == null)
+            {
+                throw new InvalidOperationException("Item not found in cart.");
+            }
+            item.Quantity--;
+            if (item.Quantity <= 0)
+            {
+                cartItems.Remove(item);
+            }
+            session.SetJson("Cart", cartItems);
+            _logger.LogInformation("Increased quantity for product ID {0}. New quantity: {1}", id, item.Quantity);
+            return Task.CompletedTask;
+        }
+
         public CartItemViewModel GetCartItems()
         {
             var session = _httpContextAccessor.HttpContext?.Session;

@@ -8,5 +8,6 @@ namespace Shoppje.Services.interfaces
 
         public Task AddToCart(int productId);
         Task IncreaseQuantity(int id);
+        Task DecreaseQuantity(int id);
     }
 }

@@ -34,6 +34,7 @@ namespace Shoppje.Controllers
         }
         public async Task<IActionResult> Decrease(int Id)
         {
+            await _cartService.DecreaseQuantity(Id);
             return RedirectToAction("Index");
         }
     }
