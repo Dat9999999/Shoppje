@@ -23,18 +23,51 @@ namespace Shoppje.Controllers
         }
         public async Task< IActionResult> Add(int Id)
         {
-            await _cartService.AddToCart(Id);
-            return Redirect(Request.Headers["Referer"].ToString());
+            try
+            {
+                await _cartService.AddToCart(Id);
+                TempData["success"] = "Product added to cart successfully!";
+            }
+            catch (Exception ex)
+            {
+                // Ghi log lỗi ra file, database hoặc hệ thống log tập trung
+                _logger.LogError(ex, "Failed to add product {ProductId} to cart", Id);
 
+                TempData["error"] = "There was a problem adding the product to the cart.";
+            }
+
+            return Redirect(Request.Headers["Referer"].ToString());
         }
         public async Task<IActionResult> Increase(int Id)
         {
-            await _cartService.IncreaseQuantity(Id);
+            try
+            {
+                await _cartService.IncreaseQuantity(Id);
+                TempData["success"] = "Increase product successfully!";
+            }
+            catch (Exception ex)
+            {
+                // Ghi log lỗi ra file, database hoặc hệ thống log tập trung
+                _logger.LogError(ex, "Failed to incresase product {ProductId}", Id);
+
+                TempData["error"] = "There was a problem increase product";
+            }
             return RedirectToAction("Index");
         }
         public async Task<IActionResult> Decrease(int Id)
         {
-            await _cartService.DecreaseQuantity(Id);
+            try
+            {
+                await _cartService.DecreaseQuantity(Id);
+                TempData["success"] = "Decrease product successfully!";
+            }
+            catch (Exception ex)
+            {
+                // Ghi log lỗi ra file, database hoặc hệ thống log tập trung
+                _logger.LogError(ex, "Failed to incresase product {ProductId}", Id);
+
+                TempData["error"] = "There was a problem decrease product";
+            }
             return RedirectToAction("Index");
         }
     }
