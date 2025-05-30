@@ -1,4 +1,5 @@
-﻿using Shoppje.Models;
+﻿using Shoppje.Areas.admin.Models;
+using Shoppje.Models;
 
 namespace Shoppje.Services.interfaces
 {
@@ -6,5 +7,6 @@ namespace Shoppje.Services.interfaces
     {
         Task<IEnumerable<ProductModel>> GetProductsAsync();
         public Task<ProductModel> GetProductById(int id);
+        Task<bool> AddProductAsync(ProductCreateViewModel productCreateViewModel);
     }
 }

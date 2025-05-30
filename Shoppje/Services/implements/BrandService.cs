@@ -1,6 +1,7 @@
 ﻿using Shoppje.Models;
 using Shoppje.Repositories.Interfaces;
 using Shoppje.Services.interfaces;
+using System.Collections;
 
 namespace Shoppje.Services.implements
 {
@@ -26,6 +27,11 @@ namespace Shoppje.Services.implements
         public Task<BrandModel> GetBySlug(string Slug)
         {
             return _brandReposiotry.GetBrandBySlug(Slug);
+        }
+
+        public async Task<IEnumerable> GetAll()
+        {
+            return await _brandReposiotry.GetAll();
         }
     }
 }

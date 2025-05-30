@@ -5,7 +5,7 @@
 }
 
 <h2>Product List</h2>
-
+<a asp-action="Add" asp-controller="Product">Add product</a>
 <table class="table table-bordered table-striped">
     <thead class="table-dark">
         <tr>
@@ -13,9 +13,6 @@
             <th>Name</th>
             <th>Price</th>
             <th>slug</th>
-            <th>Category</th>
-            <th>Brand</th>
-
             <th>Actions</th>
         </tr>
     </thead>
@@ -30,11 +27,6 @@
                     <td>@product.Name</td>
                     <td>@product.Price.ToString("C")</td>
                     <td>@product.slug</td>
-                    <td>
-                        @product.Category
-                    </td>
-                    <td>
-                        @product.Brand
                     <td>
                         <a asp-action="Edit" asp-route-id="@product.Id" class="btn btn-sm btn-primary">Edit</a>
                         <a asp-action="Delete" asp-route-id="@product.Id" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</a>

@@ -28,5 +28,10 @@ namespace Shoppje.Services.implements
             }
             return _productRepository.GetListProductOfSlug(category.Result.Id);
         }
+
+        public Task<IEnumerable<CategoryModel>> GetAll()
+        {
+            return Task.FromResult(_categoryRepository.GetAll().Result.AsEnumerable());
+        }
     }
 }

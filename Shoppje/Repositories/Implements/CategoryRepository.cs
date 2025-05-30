@@ -15,6 +15,13 @@ namespace Shoppje.Repositories.Implements
             _context = context;
         }
 
+        public async Task<IEnumerable<CategoryModel>> GetAll()
+        {
+            return await _context.Categories
+                .ToListAsync()
+                .ContinueWith(task => task.Result.AsEnumerable().ToImmutableArray());
+        }
+
         public Task<CategoryModel> GetSlugByName(string slug)
         {
             return _context.Categories

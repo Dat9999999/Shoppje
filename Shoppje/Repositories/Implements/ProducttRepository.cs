@@ -15,6 +15,12 @@ namespace Shoppje.Repositories.Implements
             _logger = logger;
         }
 
+        public Task AddProductAsync(ProductModel productModel)
+        {
+            _context.Products.Add(productModel);
+            return _context.SaveChangesAsync();
+        }
+
         public Task<IEnumerable<ProductModel>> GetListProductOfSlug(int CategoryId)
         {
             return _context.Products

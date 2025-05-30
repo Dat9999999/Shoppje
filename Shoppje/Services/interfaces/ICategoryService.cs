@@ -6,5 +6,6 @@ namespace Shoppje.Services.interfaces
     {
        public Task<IEnumerable<ProductModel>> GetListProductOfSlug(string slug);
         public Task<CategoryModel> GetSlugByName(string slug);
+        public Task<IEnumerable<CategoryModel>> GetAll();
     }
 }
