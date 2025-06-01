@@ -1,4 +1,5 @@
-﻿using Shoppje.Models;
+﻿using Shoppje.Areas.admin.Models;
+using Shoppje.Models;
 using Shoppje.Repositories.Interfaces;
 using Shoppje.Services.interfaces;
 
@@ -32,6 +33,24 @@ namespace Shoppje.Services.implements
         public Task<IEnumerable<CategoryModel>> GetAll()
         {
             return Task.FromResult(_categoryRepository.GetAll().Result.AsEnumerable());
+        }
+
+        public Task<bool> AddCategoryAsync(CategoryCreateViewModel categoryCreateViewModel)
+        {
+            categoryCreateViewModel.Slug = categoryCreateViewModel.Name.ToLower().Replace(" ", "-");
+            var category = new CategoryModel
+            {
+                Name = categoryCreateViewModel.Name,
+                Description = categoryCreateViewModel.Description,
+                Slug = categoryCreateViewModel.Slug,
+                Status = categoryCreateViewModel.Status
+            };
+            return _categoryRepository.AddCategoryAsync(category);
+        }
+
+        public async Task DeleteProductAsync(int id)
+        {
+            await _categoryRepository.DeleteProductAsync(id);
         }
     }
 }

@@ -15,17 +15,37 @@ namespace Shoppje.Repositories.Implements
             _context = context;
         }
 
+        public async Task<bool> AddCategoryAsync(CategoryModel category)
+        {
+            try
+            {
+                await _context.Categories.AddAsync(category);
+                return await _context.SaveChangesAsync() > 0;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public async Task DeleteProductAsync(int id)
+        {
+            var existingCategory = await _context.Categories.FindAsync(id);
+            if (existingCategory != null)
+            {
+                _context.Categories.Remove(existingCategory);
+                await _context.SaveChangesAsync();
+            }
+        }
         public async Task<IEnumerable<CategoryModel>> GetAll()
         {
-            return await _context.Categories
-                .ToListAsync()
-                .ContinueWith(task => task.Result.AsEnumerable().ToImmutableArray());
+            var categories = await _context.Categories.ToListAsync();
+            return categories.AsEnumerable().ToImmutableArray();
         }
 
         public Task<CategoryModel> GetSlugByName(string slug)
         {
-            return _context.Categories
-                .FirstOrDefaultAsync(c => c.Slug == slug);
+            return _context.Categories.FirstOrDefaultAsync(c => c.Slug == slug);
         }
     }
 }

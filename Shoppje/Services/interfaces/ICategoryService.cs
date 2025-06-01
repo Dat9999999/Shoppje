@@ -1,4 +1,5 @@
-﻿using Shoppje.Models;
+﻿using Shoppje.Areas.admin.Models;
+using Shoppje.Models;
 
 namespace Shoppje.Services.interfaces
 {
@@ -7,5 +8,7 @@ namespace Shoppje.Services.interfaces
        public Task<IEnumerable<ProductModel>> GetListProductOfSlug(string slug);
         public Task<CategoryModel> GetSlugByName(string slug);
         public Task<IEnumerable<CategoryModel>> GetAll();
+        Task<bool> AddCategoryAsync(CategoryCreateViewModel categoryCreateViewModel);
+        Task DeleteProductAsync(int id);
     }
 }
