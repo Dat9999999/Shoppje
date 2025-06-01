@@ -67,6 +67,15 @@ namespace Shoppje.Services.implements
                 // Xử lý upload ảnh
                 if (productEditViewModel.ImageUpload != null && productEditViewModel.ImageUpload.Length > 0)
                 {
+                    // Xóa ảnh cũ nếu tồn tại
+                    if (!string.IsNullOrEmpty(productEditViewModel.Img))
+                    {
+                        var oldImagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", productEditViewModel.Img);
+                        if (File.Exists(oldImagePath))
+                        {
+                            File.Delete(oldImagePath);
+                        }
+                    }
                     var fileName = Path.GetFileNameWithoutExtension(productEditViewModel.ImageUpload.FileName);
                     var extension = Path.GetExtension(productEditViewModel.ImageUpload.FileName);
                     newFileName = $"{fileName}_{DateTime.Now.Ticks}{extension}";
