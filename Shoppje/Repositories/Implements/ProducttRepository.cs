@@ -21,6 +21,16 @@ namespace Shoppje.Repositories.Implements
             return _context.SaveChangesAsync();
         }
 
+        public async Task DeleteProductAsync(int id)
+        {
+            var existingProduct = await _context.Products.FindAsync(id);
+            if (existingProduct != null)
+            {
+                _context.Products.Remove(existingProduct);
+                await _context.SaveChangesAsync();
+            }
+        }
+
         public Task<IEnumerable<ProductModel>> GetListProductOfSlug(int CategoryId)
         {
             return _context.Products

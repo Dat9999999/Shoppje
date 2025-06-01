@@ -10,6 +10,7 @@
     <thead class="table-dark">
         <tr>
             <th>#</th>
+            <th>Image</th>
             <th>Name</th>
             <th>Price</th>
             <th>slug</th>
@@ -24,6 +25,15 @@
             {
                 <tr>
                     <td>@index</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(product.Img))
+                        {
+                            <img src="~/images/@product.Img" alt="@product.Name" style="max-height: 60px; max-width: 60px; object-fit: contain;" />
+                        }
+                        else
+                        {
+                            <span>No Image</span>
+                        }
                     <td>@product.Name</td>
                     <td>@product.Price.ToString("C")</td>
                     <td>@product.slug</td>

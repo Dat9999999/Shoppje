@@ -8,5 +8,6 @@ namespace Shoppje.Services.interfaces
         Task<IEnumerable<ProductModel>> GetProductsAsync();
         public Task<ProductModel> GetProductById(int id);
         Task<bool> AddProductAsync(ProductCreateViewModel productCreateViewModel);
+        Task DeleteProductAsync(int id);
     }
 }

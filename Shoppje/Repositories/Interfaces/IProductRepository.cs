@@ -8,5 +8,6 @@ namespace Shoppje.Repositories.Interfaces
         public Task<IEnumerable<ProductModel>>GetListProductOfSlug(int CategoryId);
         public Task<ProductModel> GetProductById(int id);
         Task AddProductAsync(ProductModel productModel);
+        Task DeleteProductAsync(int id);
     }
 }

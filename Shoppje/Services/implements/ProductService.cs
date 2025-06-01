@@ -54,6 +54,11 @@ namespace Shoppje.Services.implements
             }
         }
 
+        public async Task DeleteProductAsync(int id)
+        {
+             await _productRepository.DeleteProductAsync(id);
+        }
+
         public Task<ProductModel> GetProductById(int id)
         {
             var product = _productRepository.GetProductById(id);

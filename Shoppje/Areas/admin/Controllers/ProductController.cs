@@ -27,7 +27,19 @@ namespace Shoppje.Areas.admin.Controllers
             var products = await _productService.GetProductsAsync();
             return View(products);
         }
-
+        public async Task<IActionResult> Delete(int id)
+        {
+            var product = await _productService.GetProductById(id);
+            if (product == null)
+            {
+                _logger.LogWarning("Product with ID {Id} not found for deletion.", id);
+                return NotFound();
+            }
+            // Xử lý xóa sản phẩm ở đây (ví dụ: gọi service để xóa sản phẩm)
+             await _productService.DeleteProductAsync(id);
+            _logger.LogInformation("Product with ID {Id} deleted successfully.", id);
+            return RedirectToAction("Index");
+        }
         public async Task<IActionResult> Add()
         {
             ViewBag.Categories = new SelectList(await _categoryService.GetAll(), "Id", "Name");
