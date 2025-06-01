@@ -9,5 +9,6 @@ namespace Shoppje.Repositories.Interfaces
         public Task<ProductModel> GetProductById(int id);
         Task AddProductAsync(ProductModel productModel);
         Task DeleteProductAsync(int id);
+        Task EditProductAsync(ProductModel productModel);
     }
 }

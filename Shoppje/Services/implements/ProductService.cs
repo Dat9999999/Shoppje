@@ -49,7 +49,7 @@ namespace Shoppje.Services.implements
             catch (Exception ex)
             {
                 // Xử lý lỗi nếu có
-                _logger.LogError(ex, "Lỗi khi thêm sản phẩm");
+                _logger.LogError(ex, "Get an error when trying to add product");
                 return false;
             }
         }
@@ -57,6 +57,47 @@ namespace Shoppje.Services.implements
         public async Task DeleteProductAsync(int id)
         {
              await _productRepository.DeleteProductAsync(id);
+        }
+
+        public async Task<bool> EditProductAsync(ProductEditViewModel productEditViewModel)
+        {
+            try
+            {
+                var newFileName = productEditViewModel.Img;
+                // Xử lý upload ảnh
+                if (productEditViewModel.ImageUpload != null && productEditViewModel.ImageUpload.Length > 0)
+                {
+                    var fileName = Path.GetFileNameWithoutExtension(productEditViewModel.ImageUpload.FileName);
+                    var extension = Path.GetExtension(productEditViewModel.ImageUpload.FileName);
+                    newFileName = $"{fileName}_{DateTime.Now.Ticks}{extension}";
+
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", newFileName);
+
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+
+                        await productEditViewModel.ImageUpload.CopyToAsync(stream);
+                    }
+                }
+                    await _productRepository.EditProductAsync(new ProductModel
+                    {
+                        Id = productEditViewModel.Id,
+                        Name = productEditViewModel.Name,
+                        Price = productEditViewModel.Price,
+                        Description = productEditViewModel.Description,
+                        Img = newFileName,
+                        slug = productEditViewModel.slug,
+                        CategoryId = productEditViewModel.CategoryId,
+                        BrandId = productEditViewModel.BrandId
+                    });
+                    return true;
+            }
+            catch (Exception ex)
+            {
+                // Xử lý lỗi nếu có
+                _logger.LogError(ex, "Get an error when trying to edit product");
+                return false;
+            }
         }
 
         public Task<ProductModel> GetProductById(int id)

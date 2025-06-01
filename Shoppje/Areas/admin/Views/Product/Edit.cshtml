@@ -1,0 +1,89 @@
+﻿@using Shoppje.Areas.admin.Models
+@model ProductEditViewModel;
+
+@{
+    ViewData["Title"] = "Edit Product";
+}
+
+<h2 class="mb-4">Edit Product</h2>
+
+<form asp-action="EditProcessing" method="post" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label asp-for="Name" class="form-label"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="mb-3">
+        <label asp-for="Id" class="form-label"></label>
+        <input type="hidden" asp-for="Id" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Price" class="form-label"></label>
+        <input asp-for="Price" class="form-control" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="CategoryId" class="form-label">Category</label>
+        <select asp-for="CategoryId" class="form-select" asp-items="ViewBag.Categories">
+            <option value="">-- Select Category --</option>
+        </select>
+        <span asp-validation-for="CategoryId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="BrandId" class="form-label">Brand</label>
+        <select asp-for="BrandId" class="form-select" asp-items="ViewBag.Brands">
+            <option value="">-- Select Brand --</option>
+        </select>
+        <span asp-validation-for="BrandId" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="slug" class="form-label">Slug (URL-friendly name)</label>
+        <input asp-for="slug" class="form-control" />
+        <span asp-validation-for="slug" class="text-danger"></span>
+    </div>
+
+    <!-- Ảnh preview -->
+    
+    <div class="mb-3">
+        <label asp-for="ImageUpload" class="form-label">Product Image</label>
+        <div class="mb-3">
+            <img id="imagePreview" src="~/images/@Model.Img" alt="@Model.Name" style="object-fit: contain;" />
+        </div>
+        <input asp-for="ImageUpload" type="file" class="form-control" onchange="previewImage(this)" />
+        <input type="hidden" asp-for="Img" />
+        <span asp-validation-for="ImageUpload" class="text-danger"></span>
+    </div>
+
+
+    <button type="submit" class="btn btn-success">Edit Product</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+@section Scripts {
+    <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+    <script>
+                CKEDITOR.replace('Description');
+    </script>
+    <script>
+            function previewImage(input) {
+            const preview = document.getElementById('imagePreview');
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+}

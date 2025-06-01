@@ -31,6 +31,27 @@ namespace Shoppje.Repositories.Implements
             }
         }
 
+        public Task EditProductAsync(ProductModel productModel)
+        {
+            var existingProduct = _context.Products.Find(productModel.Id);
+            if (existingProduct != null)
+            {
+                existingProduct.Name = productModel.Name;
+                existingProduct.Price = productModel.Price;
+                existingProduct.Description = productModel.Description;
+                existingProduct.Img = productModel.Img;
+                existingProduct.slug = productModel.slug;
+                existingProduct.CategoryId = productModel.CategoryId;
+                existingProduct.BrandId = productModel.BrandId;
+                return _context.SaveChangesAsync();
+            }
+            else
+            {
+                _logger.LogWarning("Product with ID {Id} not found for editing.", productModel.Id);
+                throw new KeyNotFoundException($"Product with ID {productModel.Id} not found.");
+            }
+        }
+
         public Task<IEnumerable<ProductModel>> GetListProductOfSlug(int CategoryId)
         {
             return _context.Products

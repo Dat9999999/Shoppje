@@ -46,6 +46,46 @@ namespace Shoppje.Areas.admin.Controllers
             ViewBag.Brands = new SelectList(await _brandService.GetAll(), "Id", "Name");
             return View();
         }
+        public async Task<IActionResult> Edit(int id)
+        {
+            ViewBag.Categories = new SelectList(await _categoryService.GetAll(), "Id", "Name");
+            ViewBag.Brands = new SelectList(await _brandService.GetAll(), "Id", "Name");
+            _logger.LogInformation("Editing product with ID {Id}", id);
+            var product = await _productService.GetProductById(id);
+            if (product == null)
+            {
+                _logger.LogWarning("Product with ID {Id} not found for editing.", id);
+                return NotFound();
+            }
+            var productEditViewModel = new ProductEditViewModel
+            {
+                Id = product.Id,
+                Name = product.Name,
+                Price = product.Price,
+                Description = product.Description,
+                Img = product.Img,
+                slug = product.slug,
+                CategoryId = product.CategoryId,
+                BrandId = product.BrandId
+            };
+            _logger.LogInformation("Product with ID {Id} retrieved for editing.", productEditViewModel.ToString());
+            return View(productEditViewModel);
+        }
+        public async Task<IActionResult> EditProcessing(ProductEditViewModel productEditViewModel)
+        {
+            ViewBag.Categories = new SelectList(await _categoryService.GetAll(), "Id", "Name");
+            ViewBag.Brands = new SelectList(await _brandService.GetAll(), "Id", "Name");
+            var result = await _productService.EditProductAsync(productEditViewModel);
+            if (result)
+            {
+                TempData["Success"] = "Cập nhật sản phẩm thành công.";
+                return RedirectToAction("Index");
+            }
+            TempData["error"] = 
+            "Có lỗi xảy ra khi cập nhật sản phẩm.";
+            _logger.LogError("Error occurred while updating product with ID {Id}", productEditViewModel.Id);
+            return RedirectToAction("Index");
+        }
         public async Task<IActionResult> AddProcessing(ProductCreateViewModel productCreateViewModel)
         {
 
