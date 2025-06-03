@@ -37,10 +37,28 @@ namespace Shoppje.Repositories.Implements
                 await _context.SaveChangesAsync();
             }
         }
+
+        public Task<bool> EditCategoryAsync(CategoryModel category)
+        {
+            try
+            {
+                _context.Categories.Update(category);
+                return Task.FromResult(_context.SaveChanges() > 0);
+            }
+            catch
+            {
+                return Task.FromResult(false);
+            }
+        }
         public async Task<IEnumerable<CategoryModel>> GetAll()
         {
             var categories = await _context.Categories.ToListAsync();
             return categories.AsEnumerable().ToImmutableArray();
+        }
+
+        public Task<CategoryModel> GetById(int id)
+        {
+            return _context.Categories.FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public Task<CategoryModel> GetSlugByName(string slug)

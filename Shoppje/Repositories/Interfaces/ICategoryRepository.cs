@@ -9,5 +9,7 @@ namespace Shoppje.Repositories.Interfaces
         Task<IEnumerable<CategoryModel>> GetAll();
         Task<bool> AddCategoryAsync(CategoryModel category);
         Task DeleteProductAsync(int id);
+        Task<CategoryModel> GetById(int id);
+        Task<bool> EditCategoryAsync(CategoryModel category);
     }
 }

@@ -9,10 +9,12 @@ namespace Shoppje.Services.implements
     {
         private readonly ICategoryRepository _categoryRepository;
         private readonly IProductRepository _productRepository;
-        public CategoryService(ICategoryRepository categoryRepository, IProductRepository productRepository)
+        private readonly ILogger<CategoryService> _logger;
+        public CategoryService(ICategoryRepository categoryRepository, IProductRepository productRepository, ILogger<CategoryService> logger)
         {
             _categoryRepository = categoryRepository;
             _productRepository = productRepository;
+            _logger = logger;
         }
         public async Task<CategoryModel> GetSlugByName(string slug)
         {
@@ -51,6 +53,30 @@ namespace Shoppje.Services.implements
         public async Task DeleteProductAsync(int id)
         {
             await _categoryRepository.DeleteProductAsync(id);
+        }
+
+        public Task<CategoryModel> GetById(int id)
+        {
+            var cat = _categoryRepository.GetById(id);
+            if (cat == null)
+            {
+                _logger.LogWarning($"Category with ID {id} not found.");
+                return Task.FromResult<CategoryModel>(null);
+            }
+            return Task.FromResult(cat.Result);
+        }
+
+        public Task<bool> EditCategoryAsync(CategoryEditViewModel categoryEditViewModel)
+        {
+            var category = new CategoryModel
+            {
+                Id = categoryEditViewModel.Id,
+                Name = categoryEditViewModel.Name,
+                Description = categoryEditViewModel.Description,
+                Slug = categoryEditViewModel.Name.ToLower().Replace(" ", "-"),
+                Status = categoryEditViewModel.Status
+            };
+            return _categoryRepository.EditCategoryAsync(category); // Assuming AddCategoryAsync can also handle updates, otherwise implement an Update method in the repository.
         }
     }
 }

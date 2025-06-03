@@ -22,6 +22,43 @@ namespace Shoppje.Areas.admin.Controllers
             _logger.LogInformation("CategoryController: Index - Categories Count: {Count}", categories.Count());
             return View(categories);
         }
+        public async Task<IActionResult> EditAsync(int id)
+        {
+            ViewBag.CategoryStatus = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Display", Value = "1" },
+                new SelectListItem { Text = "Hide", Value = "0" }
+            };
+            var category = await _categoryService.GetById(id);
+            if (category == null)
+            {
+                _logger.LogWarning("Category with ID {Id} not found for editing.", id);
+                return NotFound();
+            }
+            return View(category);
+        }
+        public async Task<IActionResult> EditProcessing(CategoryEditViewModel categoryEditViewModel)
+        {
+            ViewBag.CategoryStatus = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Display", Value = "1" },
+                new SelectListItem { Text = "Hide", Value = "0" }
+            };
+            if (!ModelState.IsValid)
+            {
+                _logger.LogWarning("Model state is invalid for product edition: {Errors}", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
+                return View("Edit", categoryEditViewModel); // Quay lại view với thông báo lỗi
+            }
+
+            var result = await _categoryService.EditCategoryAsync(categoryEditViewModel);
+            if (result)
+            {
+                TempData["Success"] = "Category Edited successfully.";
+                return RedirectToAction("Index");
+            }
+            TempData["error"] = "some thing went wrong when trying to edit category";
+            return View(categoryEditViewModel);
+        }
         public IActionResult Add()
         {
             ViewBag.CategoryStatus = new List<SelectListItem>

@@ -10,5 +10,7 @@ namespace Shoppje.Services.interfaces
         public Task<IEnumerable<CategoryModel>> GetAll();
         Task<bool> AddCategoryAsync(CategoryCreateViewModel categoryCreateViewModel);
         Task DeleteProductAsync(int id);
+        Task<CategoryModel> GetById(int id);
+        Task<bool> EditCategoryAsync(CategoryEditViewModel categoryEditViewModel);
     }
 }
