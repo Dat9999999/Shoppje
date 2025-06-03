@@ -50,9 +50,13 @@
 
     <div class="mb-3">
         <label asp-for="ImageUpload" class="form-label">Product Image</label>
-        <input asp-for="ImageUpload" type="file" class="form-control" />
+        <input asp-for="ImageUpload" type="file" class="form-control" onchange="previewImage(event)" />
         <span asp-validation-for="ImageUpload" class="text-danger"></span>
+        <div class="mt-2">
+            <img id="preview" src="#" alt="Image Preview" style="max-height: 200px; display: none;" />
+        </div>
     </div>
+
 
     <button type="submit" class="btn btn-success">Add Product</button>
     <a asp-action="Index" class="btn btn-secondary">Cancel</a>
@@ -62,4 +66,7 @@
     <script>
                 CKEDITOR.replace('Description');
     </script>
+    <script src = "~/js/UploadImg.js">
+    </script>
+
 }

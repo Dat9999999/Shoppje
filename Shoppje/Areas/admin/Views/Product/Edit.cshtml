@@ -57,14 +57,12 @@
     <div class="mb-3">
         <label asp-for="ImageUpload" class="form-label">Product Image</label>
         <div class="mb-3">
-            <img id="imagePreview" src="~/images/@Model.Img" alt="@Model.Name" style="object-fit: contain;" />
+            <img id="preview" src="~/images/@Model.Img" alt="@Model.Name" style="object-fit: contain;max-height: 200px; display: none" />
         </div>
-        <input asp-for="ImageUpload" type="file" class="form-control" onchange="previewImage(this)" />
+        <input asp-for="ImageUpload" type="file" class="form-control" onchange="previewImage(event)" />
         <input type="hidden" asp-for="Img" />
         <span asp-validation-for="ImageUpload" class="text-danger"></span>
     </div>
-
-
     <button type="submit" class="btn btn-success">Edit Product</button>
     <a asp-action="Index" class="btn btn-secondary">Cancel</a>
 </form>
@@ -73,17 +71,6 @@
     <script>
                 CKEDITOR.replace('Description');
     </script>
-    <script>
-            function previewImage(input) {
-            const preview = document.getElementById('imagePreview');
-            const file = input.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function (e) {
-                    preview.src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        }
+    <script src="~/js/UploadImg.js">
     </script>
 }
