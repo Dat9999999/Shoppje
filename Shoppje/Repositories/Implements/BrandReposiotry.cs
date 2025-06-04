@@ -20,10 +20,27 @@ namespace Shoppje.Repositories.Implements
             _context.Brands.Add(brandModel);
             return Task.FromResult(_context.SaveChanges() > 0);
         }
+
+        public async Task DeleteBrandAsync(int id)
+        {
+            BrandModel brand = await GetBrandById(id);
+            if (brand == null)
+            {
+                throw new ArgumentException("Brand not found", nameof(id));
+            }
+            _context.Brands.Remove(brand);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<BrandModel>> GetAll()
         {
             var brands = await _context.Brands.ToListAsync();
             return brands.ToImmutableArray();
+        }
+
+        public Task<BrandModel> GetBrandById(int id)
+        {
+            return _context.Brands.FirstOrDefaultAsync(t => t.Id == id);
         }
 
         public async Task<BrandModel> GetBrandBySlug(string slug)

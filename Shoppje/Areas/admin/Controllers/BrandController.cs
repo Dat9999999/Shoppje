@@ -92,19 +92,15 @@ namespace Shoppje.Areas.admin.Controllers
             TempData["error"] = "some thing went wrong when trying to add Brand";
             return View(brandCreateViewModel);
         }
-        //public async Task<IActionResult> Delete(string name)
-        //{
-        //    var product = await _productService.GetProductById(id);
-        //    if (product == null)
-        //    {
-        //        _logger.LogWarning("Product with ID {Id} not found for deletion.", id);
-        //        return NotFound();
-        //    }
-        //    // Xử lý xóa sản phẩm ở đây (ví dụ: gọi service để xóa sản phẩm)
-        //    await _productService.DeleteProductAsync(id);
-        //    _logger.LogInformation("Product with ID {Id} deleted successfully.", id);
-        //    return RedirectToAction("Index");
+        public async Task<IActionResult> Delete(int id)
+        {
+            // Xử lý xóa sản phẩm ở đây (ví dụ: gọi service để xóa sản phẩm)
 
-        //}
+            await _brandService.DeleteBrandAsync(id);
+            _logger.LogInformation("Brand with ID {Id} deleted successfully.", id);
+            TempData["Success"] = "Brand deleted successfully.";
+            return RedirectToAction("Index");
+
+        }
     }
 }

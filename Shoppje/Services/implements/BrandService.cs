@@ -10,10 +10,12 @@ namespace Shoppje.Services.implements
     {
         private readonly IBrandReposiotry _brandReposiotry;
         private readonly IProductRepository _productRepository;
-        public BrandService(IBrandReposiotry brandReposiotry, IProductRepository productRepository)
+        private readonly ILogger<BrandService> _logger;
+        public BrandService(IBrandReposiotry brandReposiotry, IProductRepository productRepository, ILogger<BrandService> logger)
         {
             _brandReposiotry = brandReposiotry;
             _productRepository = productRepository;
+            _logger = logger;
         }
         public Task<IEnumerable<ProductModel>> GetListProductOfSlug(string Slug)
         {
@@ -45,6 +47,19 @@ namespace Shoppje.Services.implements
                 Description = brandCreateViewModel.Description
             };
             return _brandReposiotry.AddBrandAsync(brand);
+        }
+
+        public async Task DeleteBrandAsync(int id)
+        {
+            try
+            {
+                await _brandReposiotry.DeleteBrandAsync(id);
+            }
+            catch (Exception ex)
+            {
+                // Log the exception or handle it as needed
+                _logger.LogError(ex, "Error deleting brand with ID {Id}", id);
+            }
         }
     }
 }

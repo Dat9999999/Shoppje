@@ -10,5 +10,6 @@ namespace Shoppje.Services.interfaces
         Task<BrandModel> GetBySlug(string slug);
         Task<IEnumerable> GetAll();
         Task<bool> AddBrandAsync(BrandCreateViewModel brandCreateViewModel);
+        Task DeleteBrandAsync(int id);
     }
 }
