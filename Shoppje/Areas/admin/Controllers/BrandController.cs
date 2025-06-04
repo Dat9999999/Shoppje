@@ -59,39 +59,39 @@ namespace Shoppje.Areas.admin.Controllers
         //    TempData["error"] = "some thing went wrong when trying to edit Brand";
         //    return View(categoryEditViewModel);
         //}
-        //public IActionResult Add()
-        //{
-        //    ViewBag.CategoryStatus = new List<SelectListItem>
-        //    {
-        //        new SelectListItem { Text = "Display", Value = "1" },
-        //        new SelectListItem { Text = "Hide", Value = "0" }
-        //    };
-        //    return View();
-        //}
-        //public async Task<IActionResult> AddProcessing(CategoryCreateViewModel categoryCreateViewModel)
-        //{
+        public IActionResult Add()
+        {
+            ViewBag.BrandStatus = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Display", Value = "1" },
+                new SelectListItem { Text = "Hide", Value = "0" }
+            };
+            return View();
+        }
+        public async Task<IActionResult> AddProcessing(BrandCreateViewModel brandCreateViewModel)
+        {
 
 
-        //    ViewBag.CategoryStatus = new List<SelectListItem>
-        //    {
-        //        new SelectListItem { Text = "Display", Value = "1" },
-        //        new SelectListItem { Text = "Hide", Value = "0" }
-        //    };
-        //    if (!ModelState.IsValid)
-        //    {
-        //        _logger.LogWarning("Model state is invalid for product creation: {Errors}", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
-        //        return View("Add", categoryCreateViewModel); // Quay lại view với thông báo lỗi
-        //    }
+            ViewBag.BrandStatus = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Display", Value = "1" },
+                new SelectListItem { Text = "Hide", Value = "0" }
+            };
+            if (!ModelState.IsValid)
+            {
+                _logger.LogWarning("Model state is invalid for brand creation: {Errors}", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
+                return View("Add", brandCreateViewModel); // Quay lại view với thông báo lỗi
+            }
 
-        //    var result = await _categoryService.AddCategoryAsync(categoryCreateViewModel);
-        //    if (result)
-        //    {
-        //        TempData["Success"] = "Brand added successfully.";
-        //        return RedirectToAction("Index");
-        //    }
-        //    TempData["error"] = "some thing went wrong when trying to add Brand";
-        //    return View(categoryCreateViewModel);
-        //}
+            var result = await _brandService.AddBrandAsync(brandCreateViewModel);
+            if (result)
+            {
+                TempData["Success"] = "Brand added successfully.";
+                return RedirectToAction("Index");
+            }
+            TempData["error"] = "some thing went wrong when trying to add Brand";
+            return View(brandCreateViewModel);
+        }
         //public async Task<IActionResult> Delete(string name)
         //{
         //    var product = await _productService.GetProductById(id);

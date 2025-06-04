@@ -1,11 +1,11 @@
 ﻿@using Shoppje.Areas.admin.Models
-@model CategoryCreateViewModel;
+@model BrandCreateViewModel;
 
 @{
-    ViewData["Title"] = "Add category";
+    ViewData["Title"] = "Add brand";
 }
 
-<h2 class="mb-4">Add New category</h2>
+<h2 class="mb-4">Add New brand</h2>
 
 <form asp-action="AddProcessing" method="post" enctype="multipart/form-data">
     <div class="mb-3">
@@ -21,7 +21,7 @@
     </div>
     <div class="mb-3">
         <label asp-for="Status" class="form-label">Status</label>
-        <select asp-for="Status" class="form-select" asp-items="ViewBag.CategoryStatus">
+        <select asp-for="Status" class="form-select" asp-items="ViewBag.BrandStatus">
             <option value="">-- Select status --</option>
         </select>
         <span asp-validation-for="Status" class="text-danger"></span>

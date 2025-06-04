@@ -1,4 +1,5 @@
-﻿using Shoppje.Models;
+﻿using Shoppje.Areas.admin.Models;
+using Shoppje.Models;
 using Shoppje.Repositories.Interfaces;
 using Shoppje.Services.interfaces;
 using System.Collections;
@@ -32,6 +33,18 @@ namespace Shoppje.Services.implements
         public async Task<IEnumerable> GetAll()
         {
             return await _brandReposiotry.GetAll();
+        }
+
+        public Task<bool> AddBrandAsync(BrandCreateViewModel brandCreateViewModel)
+        {
+            var brand = new BrandModel
+            {
+                Name = brandCreateViewModel.Name,
+                Slug = brandCreateViewModel.Name.ToLower().Replace(" ", "-"),
+                Status = brandCreateViewModel.Status,
+                Description = brandCreateViewModel.Description
+            };
+            return _brandReposiotry.AddBrandAsync(brand);
         }
     }
 }

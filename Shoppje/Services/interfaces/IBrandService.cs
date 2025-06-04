@@ -1,4 +1,5 @@
-﻿using Shoppje.Models;
+﻿using Shoppje.Areas.admin.Models;
+using Shoppje.Models;
 using System.Collections;
 
 namespace Shoppje.Services.interfaces
@@ -8,5 +9,6 @@ namespace Shoppje.Services.interfaces
         Task<IEnumerable<ProductModel>> GetListProductOfSlug(string slug);
         Task<BrandModel> GetBySlug(string slug);
         Task<IEnumerable> GetAll();
+        Task<bool> AddBrandAsync(BrandCreateViewModel brandCreateViewModel);
     }
 }
