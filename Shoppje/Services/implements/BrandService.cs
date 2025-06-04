@@ -61,5 +61,32 @@ namespace Shoppje.Services.implements
                 _logger.LogError(ex, "Error deleting brand with ID {Id}", id);
             }
         }
+
+        public Task<BrandModel> GetBrandById(int id)
+        {
+            return _brandReposiotry.GetBrandById(id);
+        }
+
+        public async Task<bool> EditCategoryAsync(BrandEditViewModel brandEditViewModel)
+        {
+            var brand = new BrandModel
+            {
+                Id = brandEditViewModel.Id,
+                Name = brandEditViewModel.Name,
+                Slug = brandEditViewModel.Name.ToLower().Replace(" ", "-"),
+                Status = brandEditViewModel.Status,
+                Description = brandEditViewModel.Description
+            };
+            try
+            {
+                await _brandReposiotry.EditBrandAsync(brand);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving brand with ID {Id} for editing", brand.Id);
+                return false;
+            }
+        }
     }
 }

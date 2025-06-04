@@ -22,43 +22,45 @@ namespace Shoppje.Areas.admin.Controllers
             _logger.LogInformation("CategoryController: Index - Categories Count: {Count}", brands.ToString());
             return View(brands);
         }
-        //public async Task<IActionResult> EditAsync(int id)
-        //{
-        //    ViewBag.CategoryStatus = new List<SelectListItem>
-        //    {
-        //        new SelectListItem { Text = "Display", Value = "1" },
-        //        new SelectListItem { Text = "Hide", Value = "0" }
-        //    };
-        //    var Brand = await _categoryService.GetById(id);
-        //    if (Brand == null)
-        //    {
-        //        _logger.LogWarning("Brand with ID {Id} not found for editing.", id);
-        //        return NotFound();
-        //    }
-        //    return View(Brand);
-        //}
-        //public async Task<IActionResult> EditProcessing(CategoryEditViewModel categoryEditViewModel)
-        //{
-        //    ViewBag.CategoryStatus = new List<SelectListItem>
-        //    {
-        //        new SelectListItem { Text = "Display", Value = "1" },
-        //        new SelectListItem { Text = "Hide", Value = "0" }
-        //    };
-        //    if (!ModelState.IsValid)
-        //    {
-        //        _logger.LogWarning("Model state is invalid for product edition: {Errors}", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
-        //        return View("Edit", categoryEditViewModel); // Quay lại view với thông báo lỗi
-        //    }
+        public async Task<IActionResult> EditAsync(int id)
+        {
+            ViewBag.CategoryStatus = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Display", Value = "1" },
+                new SelectListItem { Text = "Hide", Value = "0" }
+            };
+            var Brand = await _brandService.GetBrandById(id);
+            BrandEditViewModel brandEditViewModel = new BrandEditViewModel
+            {
+                Id = Brand.Id,
+                Name = Brand.Name,
+                Status = Brand.Status,
+                Description = Brand.Description
+            };
+            return View(brandEditViewModel);
+        }
+        public async Task<IActionResult> EditProcessing(BrandEditViewModel brandEditViewModel)
+        {
+            ViewBag.CategoryStatus = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Display", Value = "1" },
+                new SelectListItem { Text = "Hide", Value = "0" }
+            };
+            if (!ModelState.IsValid)
+            {
+                _logger.LogWarning("Model state is invalid for brand edition: {Errors}", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
+                return View("Edit", brandEditViewModel); // Quay lại view với thông báo lỗi
+            }
 
-        //    var result = await _categoryService.EditCategoryAsync(categoryEditViewModel);
-        //    if (result)
-        //    {
-        //        TempData["Success"] = "Brand Edited successfully.";
-        //        return RedirectToAction("Index");
-        //    }
-        //    TempData["error"] = "some thing went wrong when trying to edit Brand";
-        //    return View(categoryEditViewModel);
-        //}
+            var result = await _brandService.EditCategoryAsync(brandEditViewModel);
+            if (result)
+            {
+                TempData["Success"] = "Brand Edited successfully.";
+                return RedirectToAction("Index");
+            }
+            TempData["error"] = "some thing went wrong when trying to edit Brand";
+            return View("Edit", brandEditViewModel); // Quay lại view với thông báo lỗi
+        }
         public IActionResult Add()
         {
             ViewBag.BrandStatus = new List<SelectListItem>

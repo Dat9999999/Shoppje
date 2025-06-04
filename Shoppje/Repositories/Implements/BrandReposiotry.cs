@@ -32,6 +32,12 @@ namespace Shoppje.Repositories.Implements
             await _context.SaveChangesAsync();
         }
 
+        public async Task EditBrandAsync(BrandModel brand)
+        {
+            _context.Brands.Update(brand);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<IEnumerable<BrandModel>> GetAll()
         {
             var brands = await _context.Brands.ToListAsync();

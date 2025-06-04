@@ -7,6 +7,7 @@ namespace Shoppje.Repositories.Interfaces
     {
         Task<bool> AddBrandAsync(BrandModel brand);
         Task DeleteBrandAsync(int id);
+        Task EditBrandAsync(BrandModel brand);
         Task<IEnumerable<BrandModel>> GetAll();
         Task<BrandModel> GetBrandById(int id);
         Task<BrandModel> GetBrandBySlug(string slug);
