@@ -48,6 +48,7 @@ namespace Shoppje
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
+            app.UseStatusCodePagesWithRedirects("/Home/Error/?statuscode={0}");
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
@@ -68,10 +69,11 @@ namespace Shoppje
             app.MapControllerRoute(
                 name: "Areas",
                 pattern: "{area:exists}/{controller=Product}/{action=Index}/{id?}");
+
             app.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
-            var context = app.Services.CreateScope().ServiceProvider.GetRequiredService<Shoppje.data.DataContext>();
+            var context = app.Services.CreateScope().ServiceProvider.GetRequiredService<DataContext>();
             SeedData.Seed(context);
 
             app.Run();
