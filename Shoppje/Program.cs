@@ -61,6 +61,7 @@ namespace Shoppje
             builder.Services.AddScoped<ICategoryService, CategoryService>();
             builder.Services.AddScoped<IBrandService, BrandService>();
             builder.Services.AddScoped<ICartService, CartService>();
+            builder.Services.AddScoped<IAccountService, AccountService>();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();

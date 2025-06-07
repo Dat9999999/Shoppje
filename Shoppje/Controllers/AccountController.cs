@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Shoppje.Models;
+using Shoppje.Services.interfaces;
 
 namespace Shoppje.Controllers
 {
@@ -8,14 +9,17 @@ namespace Shoppje.Controllers
     {
         private UserManager<AppUserModel> _userManage;
         private SignInManager<AppUserModel> _signInManager;
+        private readonly IAccountService _accountService;
         private readonly ILogger<AccountController> _logger;
-        public AccountController(UserManager<AppUserModel> userManage, SignInManager<AppUserModel> signInManager, ILogger<AccountController> logger)
+        public AccountController(UserManager<AppUserModel> userManage, SignInManager<AppUserModel> signInManager,
+            ILogger<AccountController> logger, IAccountService accountService)
         {
             _userManage = userManage;
             _signInManager = signInManager;
             _logger = logger;
+            _accountService = accountService;
         }
-        public IActionResult Index()
+        public IActionResult login()
         {
             return View();
         }
@@ -28,12 +32,11 @@ namespace Shoppje.Controllers
         {
             if (ModelState.IsValid)
             {
-                AppUserModel newUser = new AppUserModel { UserName = user.UserName, Email = user.Email };
-                IdentityResult result = await _userManage.CreateAsync(newUser, user.Password);
+                IdentityResult result = _accountService.RegisterUserAsync(user).Result;
                 if (result.Succeeded)
                 {
                     TempData["success"] = "Register user successfully";
-                    return Redirect("/account/");
+                    return Redirect("/account/login");
                 }
                 foreach (IdentityError error in result.Errors)
                 {
