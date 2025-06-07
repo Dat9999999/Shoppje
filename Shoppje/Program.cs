@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Shoppje.data;
+using Shoppje.Models;
 using Shoppje.Repositories.Implements;
 using Shoppje.Repositories.Interfaces;
 using Shoppje.Services.implements;
@@ -22,6 +24,22 @@ namespace Shoppje
                 options.Cookie.IsEssential = true;
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // Bắt buộc cookie chỉ gửi trên HTTPS
                 options.Cookie.SameSite = SameSiteMode.Lax; // hoặc Strict tùy nhu cầu, nhưng Lax là phổ biến cho HTTPS
+            });
+
+            builder.Services.AddIdentity<AppUserModel, IdentityRole>()
+            .AddEntityFrameworkStores<DataContext>().AddDefaultTokenProviders();
+
+            builder.Services.Configure<IdentityOptions>(options =>
+            {
+                // Password settings.
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 6;
+
+
+                options.User.RequireUniqueEmail = true;
             });
             builder.Services.AddHttpContextAccessor();
 
@@ -64,6 +82,8 @@ namespace Shoppje
             app.UseRouting();
 
             app.UseSession();
+
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(

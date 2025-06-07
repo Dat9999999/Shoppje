@@ -1,0 +1,39 @@
+﻿@{  
+    ViewData["Title"] = "Account Login/Signup";  
+    Layout = "_Layout"; // Assuming you have a layout file named _Layout.cshtml  
+}  
+@model Shoppje.Models.UserModel
+
+
+<section id="form">  
+    <!--form-->  
+    <div class="container">  
+        <div class="row">  
+            <div class="col-sm-4">  
+                <div class="signup-form">  
+                    <!--sign up form-->  
+                    <h2>New User Signup!</h2>  
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <form asp-action="RegisterProcessing" asp-controller="account">
+                        <div class="mb-3">
+                            <label asp-for="UserName" class="form-label"></label>
+                            <input asp-for="UserName" class="form-control" placeholder="User name" /> <!-- Corrected property name -->
+                            <span asp-validation-for="UserName" class="text-danger"></span> <!-- Corrected property name -->
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label"></label> <!-- Corrected property name -->
+                            <input asp-for="Email" class="form-control" placeholder="Email" /> <!-- Corrected property name -->
+                            <span asp-validation-for="Email" class="text-danger"></span> <!-- Corrected property name -->
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Password" class="form-label"></label> <!-- Corrected property name -->
+                            <input asp-for="Password" class="form-control" placeholder="Password" /> <!-- Corrected property name -->
+                            <span asp-validation-for="Password" class="text-danger"></span> <!-- Corrected property name -->
+                        </div>
+                        <button  class="btn btn-default">Signup</button>  
+                    </form>  
+                </div><!--/sign up form-->  
+            </div>  
+        </div>  
+    </div>  
+</section><!--/form-->

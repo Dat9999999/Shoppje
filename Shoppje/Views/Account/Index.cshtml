@@ -1,0 +1,32 @@
+﻿@{  
+    ViewData["Title"] = "Account Login/Signup";  
+    Layout = "_Layout"; // Assuming you have a layout file named _Layout.cshtml  
+}  
+@model UserModel
+
+<section id="form">  
+    <!--form-->  
+    <div class="container">  
+        <div class="row">  
+            <div class="col-sm-4 col-sm-offset-1">  
+                <div class="login-form">  
+                    <!--login form-->  
+                    <h2>Login to your account</h2>  
+                    <form asp-action="login" asp-controller="account">  
+                        <div class="mb-3">  
+                            <label asp-for="UserName" class="form-label"></label>  
+                            <input asp-for="UserName" class="form-control" /> <!-- Corrected property name -->  
+                            <span asp-validation-for="UserName" class="text-danger"></span> <!-- Corrected property name -->  
+                        </div>  
+                        <div class="mb-3">  
+                            <label asp-for="Password" class="form-label"></label> <!-- Corrected property name -->  
+                            <input asp-for="Password" class="form-control" /> <!-- Corrected property name -->  
+                            <span asp-validation-for="Password" class="text-danger"></span> <!-- Corrected property name -->  
+                        </div>  
+                        <button class="btn btn-default">Login</button>  
+                    </form>  
+                </div><!--/login form-->  
+            </div>  
+        </div>  
+    </div>  
+</section><!--/form-->
