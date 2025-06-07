@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.VisualBasic;
 using Shoppje.Areas.admin.Models;
@@ -9,6 +10,7 @@ using Shoppje.Services.interfaces;
 namespace Shoppje.Areas.admin.Controllers
 {
     [Area("admin")]
+    [Authorize]
     public class ProductController : Controller
     {
         private readonly ILogger<ProductController> _logger;

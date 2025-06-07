@@ -38,6 +38,13 @@ namespace Shoppje.Controllers
             // Return the view with the model to show errors
             return View("login", login);
         }
+        public async Task<IActionResult> Logout(string returnUrl = "/")
+        {
+            var httpContext = HttpContext;
+            await _accountService.SignOutAsync(httpContext);
+            TempData["success"] = "Logout successfully";
+            return Redirect(returnUrl);
+        }
         public async Task<IActionResult> Register()
         {
             return View();

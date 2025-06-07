@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
 using Shoppje.Models;
 using Shoppje.Models.ViewModels;
 using Shoppje.Services.interfaces;
@@ -27,6 +28,12 @@ namespace Shoppje.Services.implements
             AppUserModel newUser = new AppUserModel { UserName = user.UserName, Email = user.Email };
             IdentityResult result = await _userManage.CreateAsync(newUser, user.Password);
             return result;
+        }
+
+        public async Task SignOutAsync(HttpContext httpContext)
+        {
+            await _signInManager.SignOutAsync();
+            await httpContext.SignOutAsync();
         }
     }
 }

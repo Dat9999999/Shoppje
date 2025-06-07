@@ -8,5 +8,6 @@ namespace Shoppje.Services.interfaces
     {
         public Task<SignInResult> PasswordSignInAsync(LoginVewModel login);
         public Task<IdentityResult> RegisterUserAsync(UserModel userModel);
+        Task SignOutAsync(HttpContext httpContext);
     }
 }

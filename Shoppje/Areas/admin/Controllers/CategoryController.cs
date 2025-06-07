@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Shoppje.Areas.admin.Models;
 using Shoppje.Services.implements;
@@ -7,6 +8,7 @@ using Shoppje.Services.interfaces;
 namespace Shoppje.Areas.admin.Controllers
 {
     [Area("admin")]
+    [Authorize]
     public class CategoryController : Controller
     {
         private readonly ILogger<CategoryController> _logger;
