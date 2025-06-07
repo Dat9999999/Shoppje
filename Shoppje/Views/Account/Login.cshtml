@@ -2,9 +2,9 @@
     ViewData["Title"] = "Account Login/Signup";  
     Layout = "_Layout"; // Assuming you have a layout file named _Layout.cshtml  
 }  
-@model UserModel
+@model LoginVewModel;
 
-<section id="form">  
+<section>  
     <!--form-->  
     <div class="container">  
         <div class="row">  
@@ -12,7 +12,7 @@
                 <div class="login-form">  
                     <!--login form-->  
                     <h2>Login to your account</h2>  
-                    <form asp-action="login" asp-controller="account">  
+                    <form asp-action="LoginProcessing" asp-controller="account">  
                         <div class="mb-3">  
                             <label asp-for="UserName" class="form-label"></label>  
                             <input asp-for="UserName" class="form-control" /> <!-- Corrected property name -->  
@@ -31,3 +31,9 @@
         </div>  
     </div>  
 </section><!--/form-->
+
+@section Scripts {
+        @{
+         await Html.RenderPartialAsync("_ValidationScriptsPartial"); // Ensure this partial is included for validation scripts
+        }
+}

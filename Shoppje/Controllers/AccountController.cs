@@ -1,27 +1,42 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Shoppje.Models;
+using Shoppje.Models.ViewModels;
 using Shoppje.Services.interfaces;
 
 namespace Shoppje.Controllers
 {
     public class AccountController : Controller
     {
-        private UserManager<AppUserModel> _userManage;
-        private SignInManager<AppUserModel> _signInManager;
         private readonly IAccountService _accountService;
         private readonly ILogger<AccountController> _logger;
-        public AccountController(UserManager<AppUserModel> userManage, SignInManager<AppUserModel> signInManager,
+        public AccountController(
             ILogger<AccountController> logger, IAccountService accountService)
         {
-            _userManage = userManage;
-            _signInManager = signInManager;
             _logger = logger;
             _accountService = accountService;
         }
-        public IActionResult login()
+        public IActionResult login(string returnUrl)
         {
-            return View();
+            return View(new LoginVewModel { ReturnUrl = returnUrl });
+        }
+
+        public async Task<IActionResult> loginProcessingAsync(LoginVewModel login)
+        {
+            if (ModelState.IsValid)
+            {
+                Microsoft.AspNetCore.Identity.SignInResult result = _accountService.PasswordSignInAsync(login).Result;
+                if (result.Succeeded)
+                {
+                    return Redirect(login.ReturnUrl ?? "/");
+                }
+                
+            }
+            _logger.LogWarning("User registration failed. Errors: {Errors}", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
+            _logger.LogInformation("User registration failed. ModelState is valid: {IsValid}", ModelState.IsValid);
+            TempData["error"] = "Login failed. Please check your username and password.";
+            // Return the view with the model to show errors
+            return View("login", login);
         }
         public async Task<IActionResult> Register()
         {
