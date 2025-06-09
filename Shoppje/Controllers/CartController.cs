@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Shoppje.Services.interfaces;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace Shoppje.Controllers
 {
@@ -16,10 +19,6 @@ namespace Shoppje.Controllers
         {
             var cartItems = _cartService.GetCartItems();
             return View(cartItems);
-        }
-        public IActionResult Checkout()
-        {
-            return View();
         }
         public async Task< IActionResult> Add(int Id)
         {
@@ -76,5 +75,11 @@ namespace Shoppje.Controllers
             TempData["success"] = "Clear all Product to cart Sucessfully! ";
             return RedirectToAction("Index");
         }
+        [Authorize]
+        public async Task<IActionResult> Checkout() {
+            await _cartService.Checkout(User.FindFirstValue(ClaimTypes.Email));
+            TempData["success"] = "Checkout successfully!";
+            return RedirectToAction("Index");
         }
+    }
 }

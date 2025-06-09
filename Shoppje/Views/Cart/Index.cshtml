@@ -3,9 +3,6 @@
 <section id="cart_items">
 	<div class="container">
 		<div class="table-responsive cart_info">
-			<div class="mb-3 text-end">
-				<a asp-controller="Cart" asp-action="Clear" class="btn btn-danger">Clear Cart</a>
-			</div>
 			<table class="table table-condensed">
 				<thead>
 					<tr class="cart_menu">
@@ -46,6 +43,12 @@
 									<a class="cart_quantity_delete"><i class="fa fa-times"></i></a>
 								</td>
 							</tr>
+							<tr>
+								<td colspan="4" class="text-end fw-bold">Subtotal:</td>
+								<td colspan="2" class="fw-bold">
+									$@Model.CartItems.Sum(i => i.TotalPrice)
+								</td>
+							</tr>
 						}
 					}
 					else
@@ -54,6 +57,13 @@
 					}
 				</tbody>
 			</table>
+			<div class="mb-3 text-end">
+				<a asp-controller="Cart" asp-action="Clear" class="btn btn-danger">Clear Cart</a>
+				@if(User.Identity?.IsAuthenticated ?? false)
+				{
+					<a asp-controller="Cart" asp-action="Checkout" class="btn btn-success ms-2">Checkout</a>
+				}
+			</div>
 		</div>
 	</div>
 </section> <!--/#cart_items-->

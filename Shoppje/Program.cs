@@ -53,6 +53,7 @@ namespace Shoppje
             builder.Services.AddScoped<IProductRepository, ProducttRepository>();
             builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
             builder.Services.AddScoped<IBrandReposiotry, BrandReposiotry>();
+            builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 
 
 

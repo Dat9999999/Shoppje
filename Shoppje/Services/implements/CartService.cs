@@ -13,12 +13,14 @@ namespace Shoppje.Services.implements
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ILogger<CartService> _logger;
         private readonly IProductRepository _productRepository;
+        private readonly IOrderRepository _orderRepository;
 
-        public CartService(IHttpContextAccessor httpContextAccessor, ILogger<CartService> logger, IProductRepository productRepository)
+        public CartService(IHttpContextAccessor httpContextAccessor, ILogger<CartService> logger, IProductRepository productRepository, IOrderRepository orderRepository)
         {
             _httpContextAccessor = httpContextAccessor;
             _logger = logger;
             _productRepository = productRepository;
+            _orderRepository = orderRepository;
         }
 
         public async Task AddToCart(int productId)
@@ -45,6 +47,19 @@ namespace Shoppje.Services.implements
             }
             _httpContextAccessor.HttpContext.Session.SetJson("Cart", cartItems);
             _logger.LogInformation("Cart saved to session: " + JsonSerializer.Serialize(cartItems));
+        }
+
+        public async Task Checkout(string name)
+        {
+            var order = new OrderModel
+            {
+                UserName = name,
+                OrderDate = DateTime.Now,
+                OrderCode = Guid.NewGuid().ToString(),
+                Status = "Pending"
+            };
+            _logger.LogInformation("Creating order for user: {0}", name);
+            await _orderRepository.CreateOrder(order);
         }
 
         public Task Clear(ISession session)
