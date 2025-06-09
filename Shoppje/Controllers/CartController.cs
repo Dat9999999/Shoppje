@@ -70,5 +70,11 @@ namespace Shoppje.Controllers
             }
             return RedirectToAction("Index");
         }
-    }
+        public async Task<IActionResult> Clear()
+        {
+            _cartService.Clear(HttpContext.Session);
+            TempData["success"] = "Clear all Product to cart Sucessfully! ";
+            return RedirectToAction("Index");
+        }
+        }
 }

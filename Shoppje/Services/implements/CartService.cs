@@ -47,6 +47,13 @@ namespace Shoppje.Services.implements
             _logger.LogInformation("Cart saved to session: " + JsonSerializer.Serialize(cartItems));
         }
 
+        public Task Clear(ISession session)
+        {
+            session.Remove("Cart");
+            _logger.LogInformation("Cart cleared from session.");
+            return Task.CompletedTask;
+        }
+
         public Task DecreaseQuantity(int id)
         {
             var session = _httpContextAccessor.HttpContext?.Session;
