@@ -16,5 +16,11 @@ namespace Shoppje.Repositories.Implements
             await _context.Orders.AddAsync(order);
             await _context.SaveChangesAsync();
         }
+
+        public async Task CreateOrderItem(OrderDetailModel orderItem)
+        {
+            await _context.OrderDetails.AddAsync(orderItem);
+            await _context.SaveChangesAsync();
+        }
     }
 }

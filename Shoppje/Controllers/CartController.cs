@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Shoppje.Models;
 using Shoppje.Services.interfaces;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -77,8 +78,12 @@ namespace Shoppje.Controllers
         }
         [Authorize]
         public async Task<IActionResult> Checkout() {
-            await _cartService.Checkout(User.FindFirstValue(ClaimTypes.Email));
+            var cart = _cartService.GetCartItems();
+            var userEmail = User.FindFirstValue(ClaimTypes.Email);
+            await _cartService.Checkout(userEmail, cart);
+
             TempData["success"] = "Checkout successfully!";
+            HttpContext.Session.Remove("Cart");
             return RedirectToAction("Index");
         }
     }

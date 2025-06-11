@@ -49,7 +49,7 @@ namespace Shoppje.Services.implements
             _logger.LogInformation("Cart saved to session: " + JsonSerializer.Serialize(cartItems));
         }
 
-        public async Task Checkout(string name)
+        public async Task Checkout(string? name, CartItemViewModel cart)
         {
             var order = new OrderModel
             {
@@ -58,8 +58,20 @@ namespace Shoppje.Services.implements
                 OrderCode = Guid.NewGuid().ToString(),
                 Status = "Pending"
             };
-            _logger.LogInformation("Creating order for user: {0}", name);
             await _orderRepository.CreateOrder(order);
+            _logger.LogInformation("Creating order for user: {0} with product count: {1}", name, cart.CartItems.Count());
+            foreach (var item in cart.CartItems)
+            {
+                var orderItem = new OrderDetailModel
+                {
+                    OrderCode = order.OrderCode,
+                    ProductId = item.ProductId,
+                    Quantity = item.Quantity,
+                    Price = item.Price
+                };
+                await _orderRepository.CreateOrderItem(orderItem);
+                _logger.LogInformation("Adding product ID {0} to order code {1}", item.ProductId, order.OrderCode);
+            }
         }
 
         public Task Clear(ISession session)

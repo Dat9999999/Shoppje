@@ -10,6 +10,6 @@ namespace Shoppje.Services.interfaces
         Task IncreaseQuantity(int id);
         Task DecreaseQuantity(int id);
         Task Clear(ISession session);
-        Task Checkout(string? name);
+        Task Checkout(string? name, CartItemViewModel cart);
     }
 }
