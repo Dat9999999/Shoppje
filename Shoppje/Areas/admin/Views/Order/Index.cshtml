@@ -28,8 +28,8 @@
                     <td>@Order.OrderDate</td>
                     <td>@Order.Status</td>
                     <td>
-                        <a asp-action="Edit" asp-route-id="@Order.Id" class="btn btn-sm btn-primary">Edit</a>
-                        <a asp-action="Delete" asp-route-id="@Order.Id" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
+                        <a asp-action="Detail" asp-route-id="@Order.Id" class="btn btn-sm btn-primary">View</a>
+                        <a asp-action="Delete" asp-route-id="@Order.Id" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Cancel</a>
                     </td>
                 </tr>
                 index++;

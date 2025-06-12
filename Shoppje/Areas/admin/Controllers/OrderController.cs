@@ -20,5 +20,10 @@ namespace Shoppje.Areas.admin.Controllers
             var orders = await _orderService.GetAllOrdersAsync();
             return View(orders);
         }
+        public async Task<IActionResult> Detail(int id)
+        {
+            var orderViewModel = await _orderService.GetOrderDetailViewModelByOrderId(id);
+            return View(orderViewModel);
+        }
     }
 }

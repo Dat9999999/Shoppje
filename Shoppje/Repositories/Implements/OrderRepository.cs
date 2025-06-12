@@ -23,9 +23,19 @@ namespace Shoppje.Repositories.Implements
             await _context.SaveChangesAsync();
         }
 
+        public IEnumerable<OrderDetailModel> GetAllByOrderCode(string orderCode)
+        {
+            return _context.OrderDetails.Where(od => od.OrderCode == orderCode).ToList();
+        }
+
         public Task<IEnumerable<OrderModel>> GetAllOrdersAsync()
         {
             return Task.FromResult<IEnumerable<OrderModel>>(_context.Orders.ToList());
+        }
+
+        public Task<OrderModel> GetOrderByIdAsync(int id)
+        {
+            return Task.FromResult(_context.Orders.FirstOrDefault(od => od.Id == id));
         }
     }
 }

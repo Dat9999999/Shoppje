@@ -1,0 +1,36 @@
+﻿@model OrderDetailViewModel;
+@{
+    ViewData["Title"] = "Order Detail";
+}
+<link href="~/css/OrderDetail.css" rel="stylesheet" />
+    <div class="container-detail">
+    @foreach (var order in Model.items)
+    {
+        <div class="item">
+            <div class="item-info">
+                @order.ProductName
+            </div>
+            <div class="item-price">
+                <b>Price: </b>
+                @order.ProductPrice
+                </div>
+            <div class="item-quantity">
+                <b>Quantity: </b>
+                @order.Quantity
+                </div>
+        </div>
+    }
+        <div class="note">
+            <b>Note: </b>
+            I need it urgently to give to my friend for her birthday in the next 3 days, hope the shop will help me deliver it as soon as possible. Thanks a lot.
+        </div>
+
+    <div class="summary">
+        <div>Product Total (@Model.items.Count()): $@Model.items.Sum(i => i.ProductPrice)</div>
+        <div>Shipping To: United Kingdom</div>
+        <div>Shipping Costs: £0.00</div>
+        <div>Discount Code: -£20.00</div>
+        <div class="total">Order Total: $@Model.items.Sum(i => i.ProductPrice)</div>
+    </div>
+
+    </div>
