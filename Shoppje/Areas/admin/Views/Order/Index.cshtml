@@ -1,0 +1,45 @@
+﻿@model IEnumerable<OrderModel>
+@{
+    ViewData["Title"] = "Order List";
+}
+
+<h2>Order List</h2>
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>#</th>
+            <th>Order code</th>
+            <th>User name</th>
+            <th>Order date</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            int index = 1;
+            foreach (var Order in Model)
+            {
+                <tr>
+                    <td>@index</td>
+                    <td>@Order.OrderCode</td>
+                    <td>@Order.UserName</td>
+                    <td>@Order.OrderDate</td>
+                    <td>@Order.Status</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@Order.Id" class="btn btn-sm btn-primary">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@Order.Id" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</a>
+                    </td>
+                </tr>
+                index++;
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="6" class="text-center">No products found.</td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -6,5 +6,7 @@ namespace Shoppje.Repositories.Interfaces
     {
         Task CreateOrder(OrderModel order);
         Task CreateOrderItem(OrderDetailModel orderItem);
+        Task<IEnumerable<OrderModel>> GetAllOrdersAsync();
+
     }
 }

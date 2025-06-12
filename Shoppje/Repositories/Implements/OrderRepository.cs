@@ -22,5 +22,10 @@ namespace Shoppje.Repositories.Implements
             await _context.OrderDetails.AddAsync(orderItem);
             await _context.SaveChangesAsync();
         }
+
+        public Task<IEnumerable<OrderModel>> GetAllOrdersAsync()
+        {
+            return Task.FromResult<IEnumerable<OrderModel>>(_context.Orders.ToList());
+        }
     }
 }
